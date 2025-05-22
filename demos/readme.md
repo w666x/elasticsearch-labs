@@ -4,7 +4,7 @@
 
 1. 通过elasticvue进行增删查改的实现demo
 2. 通过python的client的增删查改实现demo
-
+3. 回复【elasticsearch】获取git地址
 
 ## es提高
 
@@ -13,7 +13,7 @@
 
 ![es_demo](https://cdn.jsdelivr.net/gh/w666x/image/git/es_datademo.png)
 
-1. 本部分代码，需先通过环境变量指定账号密码，再执行哦
+- 1. 本部分代码，需先通过环境变量指定账号密码，再执行哦
 
 ```sh
 export es_host=**:9200
@@ -24,12 +24,12 @@ python 00_quick_start.py
 ```
 
 
-2. 各写数方式文件大小占比
+- 2. 各写数方式文件大小占比
     - embedding模型为bge-large-zh-v1.5，维度为1024
 
 
 | 类型 | 磁盘大小 | es大小 | 文件说明 | 
-|:-|:-|:-|:-|
+|--|--|--|--|
 | book_demo.json | 3KB | 442KB | 增加1024维向量
 | article.json | 4KB  | 316KB | 增加1024维向量
 | query-rules-data.json | 1.9KB | 24.8KB  | 直接写入
@@ -43,7 +43,7 @@ python 00_quick_start.py
 #### 写数
 
 
-1. 新增数据
+- 1. 新增数据
 
 ```sh
 curl -XPOST "${es_host}/_bulk" \
@@ -65,11 +65,11 @@ curl -XGET "${es_host}/book_index/_doc/<document_id>"
 ![curl写入数据](https://cdn.jsdelivr.net/gh/w666x/image/git/es_api_write.png)
 
 
-2. 更新数据-单个
+- 2. 更新数据-单个
     - 直接在elasticvue操作即可
 
 
-3. 更新数据-批量
+- 3. 更新数据-批量
 
 
 ```sh
@@ -86,7 +86,7 @@ curl -XPOST "${es_host}/_bulk" \
 
 
 
-4. 替换数据
+- 4. 替换数据
     - 方式1, 显示指定多组数据，进行个替换
     - 方式2, 根据query筛选后，执行script进行替换
 
@@ -124,7 +124,7 @@ curl -XGET "${es_host}/book_index/_count" -H 'Content-Type: application/json' -d
 ```
 
 
-5. 替换 vs 更新
+- 5. 替换 vs 更新
 
 
 | **特性**               | **更新（Update）**                                                                 | **替换（Replace）**                                                                 |
@@ -140,7 +140,7 @@ curl -XGET "${es_host}/book_index/_count" -H 'Content-Type: application/json' -d
 #### 检索
 
 
-1. 检索方式对比
+- 1. 检索方式对比
   - 基于上文创建的 **articles** index来实现检索
 
 
@@ -158,7 +158,7 @@ curl -XGET "${es_host}/book_index/_count" -H 'Content-Type: application/json' -d
 
 
 
-2. 精确匹配
+- 2. 精确匹配
     - 检索 publisher 为 addison-wesley的结果
     - 多条件精确匹配 publisher 为 addison-wesley 且 num_reviews大于30 且 前缀为 Pro 的结果
 
@@ -212,7 +212,7 @@ curl -XGET "${es_host}/book_index/_count" -H 'Content-Type: application/json' -d
 ```
 
 
-3. 多条件检索
+- 3. 多条件检索
 
 
 ```sh
@@ -234,7 +234,7 @@ curl -XGET "${es_host}/book_index/_count" -H 'Content-Type: application/json' -d
 ```
 
 
-4. 模糊搜索
+- 4. 模糊搜索
     - 对title字段模糊匹配pyvascript
 
 
@@ -251,7 +251,7 @@ curl -XGET "${es_host}/book_index/_count" -H 'Content-Type: application/json' -d
 
 
 
-5. bool逻辑组合匹配查询
+- 5. bool逻辑组合匹配查询
     - 组合查询， must + must not组合查询
 
 
@@ -273,7 +273,7 @@ curl -XGET "${es_host}/book_index/_count" -H 'Content-Type: application/json' -d
 #### 删除数据
 
 
-1. 删除单条数据
+- 1. 删除单条数据
     - 直接通过vue工具搜索出结果后，选中删除
     - 通过curl调用接口
 
@@ -283,7 +283,7 @@ curl -X DELETE "${es_host}/{索引名}/_doc/{文档ID}"
 ```
 
 
-2. 批量删除
+- 2. 批量删除
     - 删除满足条件的所有数据
     - 直接通过vue工具搜索出结果后，选中删除
     - 通过curl调用接口
@@ -339,7 +339,7 @@ client = Elasticsearch(hosts=[es_host])
 
 #### 增查数据
 
-1. 写数
+- 1. 写数
 
 ```python
 import pandas as pd
@@ -372,7 +372,7 @@ for batch_start in range(start, end, batch_size):
 ```
 
 
-2. 查询-python
+- 2. 查询-python
     - 查询条件1，返回title包含javascript的数据
     - 筛选条件1，在1的基础上，进一步筛选 不满足 num_reviews < 45的数据
     - 返回的score，为查询条件1中计算出来的
@@ -393,7 +393,7 @@ response = client.search(
 #### 删除数据
 
 
-1. 根据条件删除数据
+- 1. 根据条件删除数据
 
 
 ```python
@@ -413,7 +413,7 @@ response = client.delete_by_query(
 ```
 
 
-2. 删除单条数据
+- 2. 删除单条数据
 
 
 ```python
@@ -426,7 +426,7 @@ response = client.delete(
 ```
 
 
-3. 批量删除指定ID的文档
+- 3. 批量删除指定ID的文档
 
 
 ```python
@@ -458,7 +458,7 @@ success_count, errors = bulk(client, actions, stats_only=True)
 
 
 
-1. 批量更新数据
+- 1. 批量更新数据
     - 更新_id：0Nct3JYBB66JPEoP3bqg的publisher信息
     - 更新_id: 0tct3JYBB66JPEoP3bqg的num_reviews信息，通过传参实现
 
@@ -490,7 +490,7 @@ success, errors = helpers.bulk(client, actions, stats_only=True)
 
 
 
-2. 根据条件更新数据
+- 2. 根据条件更新数据
 
 
 ```sh
@@ -518,7 +518,7 @@ response = client.update_by_query(
 ### 环境说明
 
 
-1. 系统环境说明
+- 1. 系统环境说明
 
 
 ```sh
@@ -533,7 +533,7 @@ Elasticvue 1.7.0-stable
 ```
 
 
-2. python环境说明
+- 2. python环境说明
     - python库版本，请看requirements_env.txt
 
 ```sh
@@ -545,7 +545,7 @@ langchain-elasticsearch==0.3.2
 
 
 
-3. 目录树
+- 3. 目录树
 
 
 ```sh
