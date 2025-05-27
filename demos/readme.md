@@ -42,6 +42,51 @@ python 00_quick_start.py
 
 #### 写数
 
+- 0. 创建索引
+  - 创建索引时，指定field特定类型
+
+```sh
+curl -X PUT "${es_host}:9200/file_index" -H "Content-Type: application/json" -d '
+{
+ "settings": {
+   "number_of_shards": 1,
+   "number_of_replicas": 1
+ },
+ "mappings": {
+   "properties": {
+     "title": {
+         "type": "text",
+         "fields": { "keyword": { "type": "keyword" } }
+     },
+     "file_size": { "type": "long" },
+     "file_format": { "type": "keyword" },
+     "file_address": { "type": "keyword" },
+     "created_at": {
+         "type": "date",
+         "format": "yyyy-MM-dd HH:mm:ss"
+     },
+     "metadata": {
+       "type": "object",
+       "properties": {
+           "filename": { "type": "keyword" },
+           "category": { "type": "keyword" },
+           "page_number": { "type": "integer" }
+       }
+     }
+   }
+ }
+}'
+```
+
+| 字段名           | 类型         | 用途说明                                                                 |
+|-------------------|--------------|--------------------------------------------------------------------------|
+| `text`            | 全文文本      | 支持分词搜索（如 `title` 字段全文检索）                                   |
+| `keyword`         | 精确值       | 支持精确匹配、聚合（如 `file_format`、`file_address`）                   |
+| `long`/`integer`  | 数值         | 存储整数（如 `file_size`、`page_number`）                                |
+| `date`            | 日期         | 指定时间格式（如 `created_at`）                                          |
+| `object`          | 嵌套对象     | 存储复杂结构的子字段（如 `metadata`）                                    |
+
+
 
 - 1. 新增数据
 
