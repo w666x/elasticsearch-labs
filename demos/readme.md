@@ -315,6 +315,25 @@ curl -XGET "${es_host}/book_index/_count" -H 'Content-Type: application/json' -d
 ```
 
 
+- 6. 查询时，过滤字段
+
+
+```sh
+{
+ "query": { ... },               // 查询条件
+ "_source": ["field1", "field2"]  // 包含指定字段
+}
+
+// 或排除字段
+{
+ "query": { ... },
+ "_source": {
+   "excludes": ["field3", "field4"] // 排除指定字段
+ },
+}
+```
+
+
 #### 删除数据
 
 
